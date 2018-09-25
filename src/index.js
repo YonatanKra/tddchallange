@@ -11,6 +11,9 @@ const template = `
             background: rgba(0, 0, 0, 0.42);
             -webkit-transition: opacity 0.5s;
             transition: opacity 0.5s;
+            display: flex;
+            align-items: center; 
+            justify-content: center;
         }
     
         :host .overlay-hidden {
@@ -19,7 +22,6 @@ const template = `
             -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
             transition: opacity 0.5s, visibility 0s 0.5s;
         }
-
     </style>
     <div class="overlay overlay-hidden">
         <div class="overlay-content"></div>
@@ -40,6 +42,13 @@ function parseConfig(config, element) {
         element.style.backgroundColor = config.backgroundColor;
     } else {
         element.style.backgroundColor = '#ffffff';
+    }
+    if (config.position) {
+        element.style.top = config.position.top;
+        element.style.left = config.position.left;
+        element.style.position = config.position.absolute;
+    } else {
+        element.style.position = '';
     }
     if (config.height) {
         element.style.height = config.height + 'px';
