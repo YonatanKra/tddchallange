@@ -64,9 +64,7 @@ describe('app integration tests', () => {
         });
 
         it('should set height and width according to config', () => {
-            const randomId = new Date().getTime().toString();
             const config = {
-                content: `<div id="${randomId}">Test content</div>`,
                 height: Math.floor(Math.random() * 100 + 50),
                 width: Math.floor(Math.random() * 100 + 50)
             };
@@ -75,6 +73,27 @@ describe('app integration tests', () => {
 
             expect(parentDims.width).toEqual(config.width);
             expect(parentDims.height).toEqual(config.height);
+        });
+
+        it('should open the modal in the center of the element the overlay', () => {
+            const config = {
+                height: Math.floor(Math.random() * 100 + 50),
+                width: Math.floor(Math.random() * 100 + 50)
+            };
+            const content = commonOpenModal(config).parentNode;
+            const contentDims = content.getBoundingClientRect();
+            const parentDims = content.parentNode.getBoundingClientRect();
+
+            const y1 = contentDims.y - parentDims.y;
+            const y2 = -y1 + parentDims.height - contentDims.height;
+
+            const x1 = contentDims.x - parentDims.x;
+            const x2 = -x1 + parentDims.width - contentDims.width;
+
+            expect(y1).toEqual(y2);
+            expect(x1).toEqual(x2);
+            expect(x1+x2+contentDims.width).toEqual(parentDims.width);
+            expect(y1+y2+contentDims.height).toEqual(parentDims.height);
         });
     });
 
