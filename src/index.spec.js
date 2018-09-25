@@ -1,6 +1,17 @@
 import {Overlay} from './index';
 
 describe('app integration tests', () => {
+    function commonOpenModal(config) {
+        const randomId = new Date().getTime().toString();
+        let commonConfig = {
+            content: `<div id="${randomId}">Test content</div>`
+        };
+        if (config) {
+            Object.assign(commonConfig, config);
+        }
+        element.open(commonConfig);
+        return element.shadowRoot.getElementById(randomId);
+    }
     let element;
     beforeEach(() => {
         element = document.createElement('ce-overlay');
@@ -25,12 +36,8 @@ describe('app integration tests', () => {
         });
 
         it('should add the content set in the content property', () => {
-            const randomId = new Date().getTime().toString();
-            const config = {
-                content: `<div id="${randomId}">Test content</div>`
-            };
-            element.open(config);
-            expect(element.shadowRoot.getElementById(randomId)).toBeTruthy();
+            const content = commonOpenModal();
+            expect(content).toBeTruthy();
         });
 
         it('should set background according to the config', () => {
@@ -42,6 +49,18 @@ describe('app integration tests', () => {
                 }
                 return color;
             }
+            let content = commonOpenModal();
+            let rgb = content.parentNode.style.backgroundColor;
+            const defaultBackgroundColor = '#' + rgb.substr(4, rgb.indexOf(')') - 4).split(',').map((color) => parseInt(color).toString(16)).join('');
+
+            const config = {backgroundColor: getRandomColor()};
+            content = commonOpenModal(config);
+            rgb = content.parentNode.style.backgroundColor;
+            const backgroundColor = '#' + rgb.substr(4, rgb.indexOf(')') - 4).split(',').map((color) => parseInt(color).toString(16)).join('');
+
+            expect(backgroundColor).toEqual(config.backgroundColor);
+            expect(defaultBackgroundColor).toEqual('#ffffff');
+        });
 
     });
 
