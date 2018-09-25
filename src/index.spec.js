@@ -1,5 +1,6 @@
 import {Overlay} from './index';
 
+
 describe('app integration tests', () => {
     function commonOpenModal(config) {
         const randomId = new Date().getTime().toString();
@@ -62,6 +63,19 @@ describe('app integration tests', () => {
             expect(defaultBackgroundColor).toEqual('#ffffff');
         });
 
+        it('should set height and width according to config', () => {
+            const randomId = new Date().getTime().toString();
+            const config = {
+                content: `<div id="${randomId}">Test content</div>`,
+                height: Math.floor(Math.random() * 100 + 50),
+                width: Math.floor(Math.random() * 100 + 50)
+            };
+            const content = commonOpenModal(config);
+            const parentDims = content.parentNode.getBoundingClientRect();
+
+            expect(parentDims.width).toEqual(config.width);
+            expect(parentDims.height).toEqual(config.height);
+        });
     });
 
     describe('close', () => {
