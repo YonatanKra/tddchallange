@@ -29,6 +29,19 @@ const template = `
 const tmpl = document.createElement('template');
 tmpl.innerHTML = template;
 
+function parseConfig(config, element) {
+    if (!config || !element) {
+        return;
+    }
+    if (config.content) {
+        element.innerHTML = config.content;
+    }
+    if (config.backgroundColor) {
+        element.style.backgroundColor = config.backgroundColor;
+    } else {
+        element.style.backgroundColor = '#ffffff';
+    }
+}
 class Overlay extends HTMLElement{
     constructor() {
         super();
@@ -40,9 +53,7 @@ class Overlay extends HTMLElement{
 
     open(config) {
         this._overlay.classList.remove('overlay-hidden');
-        if (config && config.content) {
-            this._overlayContent.innerHTML = config.content;
-        }
+        parseConfig(config, this._overlayContent);
     }
 
     close() {
