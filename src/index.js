@@ -41,6 +41,16 @@ function parseConfig(config, element) {
     } else {
         element.style.backgroundColor = '#ffffff';
     }
+    if (config.height) {
+        element.style.height = config.height + 'px';
+    } else {
+        element.style.height = 'auto';
+    }
+    if (config.width) {
+        element.style.width = config.width + 'px';
+    } else {
+        element.style.width = 'auto';
+    }
 }
 class Overlay extends HTMLElement{
     constructor() {
