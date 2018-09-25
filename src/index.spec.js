@@ -4,6 +4,7 @@ describe('app integration tests', () => {
     let element;
     beforeEach(() => {
         element = document.createElement('ce-overlay');
+        document.body.append(element);
     });
 
     // check that the exposed API works
@@ -31,6 +32,17 @@ describe('app integration tests', () => {
             element.open(config);
             expect(element.shadowRoot.getElementById(randomId)).toBeTruthy();
         });
+
+        it('should set background according to the config', () => {
+            function getRandomColor() {
+                const letters = '123456789abcdef';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 15)];
+                }
+                return color;
+            }
+
     });
 
     describe('close', () => {
@@ -43,5 +55,9 @@ describe('app integration tests', () => {
             expect(isHidden).toBeFalsy();
             expect(isHiddenAfter).toBeTruthy();
         });
+    });
+
+    afterEach(() => {
+        document.body.removeChild(element);
     });
 });
