@@ -6,6 +6,7 @@ describe('MyModalWindow', () => {
     beforeEach(() => {
         element = document.createElement('test-my-modal-window');
         root = element.shadowRoot;
+        document.body.appendChild(element);
     });
 
     describe(`initialization`, () => {
@@ -14,6 +15,16 @@ describe('MyModalWindow', () => {
             const content = root.querySelectorAll('.content');
             expect(overlay.length).toEqual(1);
             expect(content.length).toEqual(1);
+        });
+
+        it(`should have white background for the content`, () => {
+            const content = root.querySelector('.content');
+            const image = document.createElement("img");
+            image.style.backgroundColor = "white";
+            document.body.appendChild(image);
+            const imageColor = getComputedStyle(image).backgroundColor;
+            document.body.removeChild(image);
+            expect(getComputedStyle(content).backgroundColor).toEqual(imageColor);
         });
     });
 
@@ -46,5 +57,9 @@ describe('MyModalWindow', () => {
             element.close();
             expect(overlay.classList.contains('overlay-hidden')).toBeTruthy();
         });
+    });
+
+    afterEach(() => {
+        document.body.removeChild(element);
     });
 });
