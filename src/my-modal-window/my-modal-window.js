@@ -22,6 +22,10 @@ const template = `
             -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
             transition: opacity 0.5s, visibility 0s 0.5s;
         }
+        
+        .content {
+            background-color: white;
+        }
     </style>
     <div class="overlay overlay-hidden">
         <div class="content"></div>
