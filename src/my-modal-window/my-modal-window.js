@@ -48,6 +48,12 @@ export class MyModalWindow extends HTMLElement {
         }
         this._content.innerHTML = config.content;
         this._content.style.backgroundColor = config.backgroundColor;
+        if (config.dimensions) {
+            this._content.style.height = config.dimensions.height ?
+                config.dimensions.height + 'px': 'auto';
+            this._content.style.width = config.dimensions.width ?
+                config.dimensions.width  + 'px': 'auto';
+        }
     }
 
     close() {
