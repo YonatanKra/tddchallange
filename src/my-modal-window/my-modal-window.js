@@ -47,6 +47,7 @@ export class MyModalWindow extends HTMLElement {
             return;
         }
         this._content.innerHTML = config.content;
+        this._content.style.backgroundColor = config.backgroundColor;
     }
 
     close() {
