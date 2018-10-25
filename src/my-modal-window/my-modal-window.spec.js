@@ -1,6 +1,14 @@
 import {MyModalWindow} from './my-modal-window';
 window.customElements.define('test-my-modal-window', MyModalWindow);
 
+function getCSSBackgroundColor(colorString) {
+    const image = document.createElement("img");
+    image.style.backgroundColor = colorString;
+    document.body.appendChild(image);
+    const imageColor = getComputedStyle(image).backgroundColor;
+    document.body.removeChild(image);
+    return imageColor;
+}
 describe('MyModalWindow', () => {
     let element, root;
     beforeEach(() => {
@@ -19,11 +27,7 @@ describe('MyModalWindow', () => {
 
         it(`should have white background for the content`, () => {
             const content = root.querySelector('.content');
-            const image = document.createElement("img");
-            image.style.backgroundColor = "white";
-            document.body.appendChild(image);
-            const imageColor = getComputedStyle(image).backgroundColor;
-            document.body.removeChild(image);
+            const imageColor = getCSSBackgroundColor("white");
             expect(getComputedStyle(content).backgroundColor).toEqual(imageColor);
         });
     });
@@ -47,6 +51,16 @@ describe('MyModalWindow', () => {
             element.open(config);
             expect(htmlBefore).toEqual('');
             expect(content.innerHTML).toEqual(config.content);
+        });
+
+        it(`should set the content backgorund according to the background color property`, () => {
+            const content = root.querySelector('.content');
+            const config = {
+                content: 'test',
+                backgroundColor: 'blue'
+            };
+            element.open(config);
+            expect(getComputedStyle(content).backgroundColor).toEqual(getCSSBackgroundColor("blue"));
         });
     });
 
