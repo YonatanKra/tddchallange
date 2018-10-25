@@ -62,6 +62,22 @@ describe('MyModalWindow', () => {
             element.open(config);
             expect(getComputedStyle(content).backgroundColor).toEqual(getCSSBackgroundColor("blue"));
         });
+
+        it(`should set the height and width according to config dimensions`, () => {
+            const content = root.querySelector('.content');
+            const config = {
+                content: 'test',
+                dimensions: {
+                    height: 250,
+                    width: 300
+                }
+            };
+            element.open(config);
+            const boundingRect = content.getBoundingClientRect();
+            expect(boundingRect.width).toEqual(config.dimensions.width);
+            expect(boundingRect.height).toEqual(config.dimensions.height);
+
+        });
     });
 
     describe(`close`, () => {
