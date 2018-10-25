@@ -1,4 +1,5 @@
 import {MyModalWindow} from './my-modal-window';
+
 window.customElements.define('test-my-modal-window', MyModalWindow);
 
 function getCSSBackgroundColor(colorString) {
@@ -9,6 +10,7 @@ function getCSSBackgroundColor(colorString) {
     document.body.removeChild(image);
     return imageColor;
 }
+
 describe('MyModalWindow', () => {
     let element, root;
     beforeEach(() => {
@@ -29,6 +31,29 @@ describe('MyModalWindow', () => {
             const content = root.querySelector('.content');
             const imageColor = getCSSBackgroundColor("white");
             expect(getComputedStyle(content).backgroundColor).toEqual(imageColor);
+        });
+
+        it(`should set the modal in the center of its parent`, () => {
+            const config = {
+                dimensions: {
+                    height: Math.floor(Math.random() * 100 + 50),
+                    width: Math.floor(Math.random() * 100 + 50)
+                }
+            };
+            const content = root.querySelector('.content');
+            const contentDims = content.getBoundingClientRect();
+            const parentDims = content.parentNode.getBoundingClientRect();
+
+            const y1 = contentDims.y - parentDims.y;
+            const y2 = -y1 + parentDims.height - contentDims.height;
+
+            const x1 = contentDims.x - parentDims.x;
+            const x2 = -x1 + parentDims.width - contentDims.width;
+
+            expect(y1).toEqual(y2);
+            expect(x1).toEqual(x2);
+            expect(x1 + x2 + contentDims.width).toEqual(parentDims.width);
+            expect(y1 + y2 + contentDims.height).toEqual(parentDims.height);
         });
     });
 
