@@ -25,7 +25,12 @@ export class MyApp extends HTMLElement{
 
     openModal() {
         this.modalWindow.open({
-            content: '<h1>Hello Modal Component</h1>'
+            content: '<h1>Hello Modal Component</h1>',
+            backgroundColor: 'pink',
+            dimensions: {
+                width: 500,
+                height: 250
+            }
         });
     }
 }
